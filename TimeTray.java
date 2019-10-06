@@ -63,7 +63,7 @@ import javax.swing.event.ChangeListener;
 
 public class TimeTray extends TimerTask implements ActionListener {
     // version string
-    private final String VERSION = "1.4";
+    private final String VERSION = "1.5";
 
     // TrayIcon to be used in system tray
     private TrayIcon trayIcon = null;
