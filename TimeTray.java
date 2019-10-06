@@ -252,7 +252,7 @@ public class TimeTray extends TimerTask implements ActionListener {
 
         // default format for displaying date information
         private static final String DEFAULT_SDF_FORMAT =
-            "EEEE, MMMM dd, yyyy, HH:mm";
+            "yyyy-MM-dd";
 
         // background color for the tray icon
         private Color backgroundColor;
@@ -287,7 +287,7 @@ public class TimeTray extends TimerTask implements ActionListener {
              * anywhere, not only Windows
              */
             final Font DEFAULT_FONT =
-                new Font("SansSerif", Font.PLAIN, trayHeight);
+                new Font("SansSerif", Font.BOLD, trayHeight);
 
             backgroundColor = this.DEFAULT_BACKGROUND_COLOR;
             fontColor = this.DEFAULT_FONT_COLOR;
