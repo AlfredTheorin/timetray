@@ -1,0 +1,35 @@
+<project name="TimeTray" default="build">
+	<property name="bin" value="bin"/>
+	<property name="src" value="."/>
+	<property name="javaBootclasses" value="D:/In/fromwork/Archive/JavaBootclasses/"/>
+
+	<target name="build">
+		<antcall target="compile"/>
+	</target>
+	
+	<target name="clean" description="Delete generated files.">
+		<delete dir="${bin}"/>
+	</target>
+	
+	<target name="compile" unless="nocompile">
+		<mkdir dir="${bin}"/>
+		<javac srcdir="${src}"
+		       destdir="${bin}"
+		       classpath="${src}"
+		       includeAntRuntime="false"
+		       deprecation="on"
+		       source="1.8"
+		       target="1.8"
+		       bootclasspath="${javaBootclasses}/rt8.jar">
+			<compilerarg value="-Xlint"/>
+		</javac>
+	</target>
+	
+	<target name="jar" depends="build">
+		<jar destfile="TimeTray.jar" basedir="${bin}" manifest="TimeTray.mf"/>
+	</target>
+	
+	<target name="run" depends="build">
+		<java classname="TimeTray" dir="${bin}" fork="true"></java>
+	</target>
+</project>
