@@ -185,7 +185,7 @@ public class TimeTray extends TimerTask implements ActionListener {
      * @return int the current week number
      */
     private int getWeekNumber() {
-        return this.calendar.get(Calendar.WEEK_OF_YEAR) + this.presets.offset;
+        return this.calendar.get(Calendar.WEEK_OF_YEAR);
     }
 
     /**
@@ -247,9 +247,6 @@ public class TimeTray extends TimerTask implements ActionListener {
         // default font color for the tray icon
         private final Color DEFAULT_FONT_COLOR = Color.white;
 
-        // in general, locale settings probably match the local customs
-        private static final int DEFAULT_OFFSET = 0;
-
         // default format for displaying date information
         private static final String DEFAULT_SDF_FORMAT =
             "yyyy-MM-dd";
@@ -269,15 +266,6 @@ public class TimeTray extends TimerTask implements ActionListener {
         // locale to use when calculating which week it is
         private Locale locale;
 
-        /*
-         * used to correct the calendar week by +1 or -1 if neccessary
-         *
-         * this may come in handy, because Java determines the start of a week
-         * depending on the locale settings of your operating system that can
-         * differ from the customs of your region.
-         */
-        private int offset;
-
         // SimpleDateFormat for use in connection with the ToolTip text
         private SimpleDateFormat sdf;
 
@@ -292,7 +280,6 @@ public class TimeTray extends TimerTask implements ActionListener {
             backgroundColor = this.DEFAULT_BACKGROUND_COLOR;
             fontColor = this.DEFAULT_FONT_COLOR;
             font = DEFAULT_FONT;
-            offset = Presets.DEFAULT_OFFSET;
             sdf = new SimpleDateFormat(DEFAULT_SDF_FORMAT);
             timeZone = TimeZone.getDefault();
             locale = Locale.getDefault();
@@ -334,8 +321,6 @@ public class TimeTray extends TimerTask implements ActionListener {
                 alpha = Integer.parseInt(br.readLine());
                 this.fontColor = new Color(red, green, blue, alpha);
 
-                this.offset = Integer.parseInt(br.readLine());
-
                 String family = br.readLine();
                 int style = Integer.parseInt(br.readLine());
                 this.font = new Font(family, style, trayHeight);
@@ -367,8 +352,6 @@ public class TimeTray extends TimerTask implements ActionListener {
                 out.println(this.fontColor.getGreen());
                 out.println(this.fontColor.getBlue());
                 out.println(this.fontColor.getAlpha());
-
-                out.println(this.offset);
 
                 out.println(this.font.getFamily());
                 out.println(this.font.getStyle());
@@ -456,16 +439,16 @@ public class TimeTray extends TimerTask implements ActionListener {
          * Build the window
          */
         private void initWindow() {
-            JLabel sliderLabel = new JLabel("Offset");
-            sliderLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            JLabel label = new JLabel("Edit \"" + this.parent.presets.FILENAME + "\" and restart. See README.md for details.");
+            label.setAlignmentX(Component.LEFT_ALIGNMENT);
 
             offsetSlider = createOffsetSlider(this);
 
-            this.setTitle("Presets (not finished)");
-            this.getContentPane().add(sliderLabel);
+            this.setTitle("Settings");
+            this.getContentPane().add(label);
             this.getContentPane().add(Box.createRigidArea(
                 new Dimension(0, 5)));
-            this.getContentPane().add(offsetSlider);
+            //this.getContentPane().add(offsetSlider);
             this.pack();
         }
 
@@ -480,7 +463,7 @@ public class TimeTray extends TimerTask implements ActionListener {
             JSlider offsetSlider = new JSlider(
                 JSlider.HORIZONTAL, -1,
                 1,
-                window.parent.presets.offset);
+                0 /*window.parent.presets.offset*/);
             offsetSlider.setAlignmentX(Component.LEFT_ALIGNMENT);
             offsetSlider.setMajorTickSpacing(1);
             offsetSlider.setPaintTicks(true);
@@ -497,7 +480,7 @@ public class TimeTray extends TimerTask implements ActionListener {
          */
         public void stateChanged(ChangeEvent ev) {
             JSlider source = (JSlider) ev.getSource();
-            this.parent.presets.offset = source.getValue();
+            //this.parent.presets.offset = source.getValue();
 
             //update the TrayIcon image
             this.parent.repaintTrayIcon();
