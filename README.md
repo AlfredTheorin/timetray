@@ -1,13 +1,10 @@
 # TimeTray
-TimeTray displays the current calender week in a system tray -- a feature that Windows still lacks in 2016.
-
-## Support me at patreon!
-If you like what I do, please consider to become my supporter at patreon: https://www.patreon.com/otacke
+TimeTray displays the current calender week in a system tray
 
 ## Install/Usage
 If you don't use the "Download ZIP" option but only want to download _TimeTray.jar_, **don't right-click it in the list (!) but left-click on it and get the "RAW" version**!
 
-Just make sure that you're running a Java Runtime Environment (e. g. the [JRE from Oracle](http://www.java.com/en/download/ "Oracle")), and put _TimeTray.jar_ into your autostart folder, crontab, whatever...
+Just make sure that you're running a Java Runtime Environment (e. g. the [JRE from Oracle](http://www.java.com/en/download/ "Oracle")), and put _TimeTray.bat_ into your autostart folder, crontab, whatever...
 
 ## Screenshot
 ![timetray](https://github.com/otacke/timetray/blob/master/timetray.png "timetray")
@@ -15,12 +12,13 @@ Just make sure that you're running a Java Runtime Environment (e. g. the [JRE fr
 ## Additional Information
 TimeTray is a very simple program that I originally hacked on one day for a former colleague of mine many years ago. It displays the current calender week in a system tray -- a feature that Windows still lacks in 2016. Since TimeTray is written in Java, it can run on other operating systems as well, e.g. Linux or MacOS.
 
-TimeTray is totally working -- I hope ;-) I cannot test it on Windows because I don't use Windows. So, if you detect a problem, just tell me, please. Anyway, allowing to set (and save) some parameters would be useful:
+TimeTray is totally working -- I hope ;-) Anyway, allowing to set (and save) some parameters would be useful:
 
 * the tray icon's background color
 * the tray icon's font color
 * the tray icon's font
 * an optional offset of -1 or +1 if you're running a locale version of your OS that doesn't match your local calendar customs
+* time zone and locale 
 
 So far, there is a rudimental settings window that allows you to change the offset that is saved automatically to a plain text file called _.timetray_ in your home directory. You can edit the file with a text editor line by line to change other values. The lines mean...
 
