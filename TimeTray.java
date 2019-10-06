@@ -284,7 +284,7 @@ public class TimeTray extends TimerTask implements ActionListener {
             backgroundColor = this.DEFAULT_BACKGROUND_COLOR;
             fontColor = this.DEFAULT_FONT_COLOR;
             font = DEFAULT_FONT;
-            offset = this.DEFAULT_OFFSET;
+            offset = Presets.DEFAULT_OFFSET;
             sdf = new SimpleDateFormat(DEFAULT_SDF_FORMAT);
 
             File file = new File(this.FILENAME);
@@ -380,6 +380,8 @@ public class TimeTray extends TimerTask implements ActionListener {
         // Slider for setting the offset
         private JSlider offsetSlider;
 
+        private static final long serialVersionUID = 1;
+
         /**
          * Constructor for SettingsWindow
          *
@@ -446,6 +448,5 @@ public class TimeTray extends TimerTask implements ActionListener {
             // save changed presets
             this.parent.presets.savePresets();
         }
-
     }
 }
