@@ -36,6 +36,9 @@ So far, there is a rudimental settings window that allows you to change the offs
 10. name of the font family
 11. number representing the font style (I didn't look up which number means what, but 0 is plain)
 12. simple date format pattern representing the format for the TrayIcons toolstip text
+13. TimeZone
+14. Locale language
+15. Locale country
 
 The load and save routines are only rudimentary, so you might crash TimeTray if you set illegal values. In doubt, delete .timetray in your home directory. TimeTray will then reset the file if neccessary. The ugly routines should probably be improved...
 

@@ -13,8 +13,8 @@
  * TODO: improve or remove the tooltip stuff
  * TODO: refactoring, e.g. packaging
  *
- * @author Oliver Tacke, Armin Schöning
- * @version 1.4, Feb 2016
+ * @author Oliver Tacke, Armin Schöning, Alfred Theorin
+ * @version 1.5, Oct 2019
  */
 
 //import neccessary Classes
@@ -46,11 +46,13 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TimeZone;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JSlider;
@@ -106,7 +108,7 @@ public class TimeTray extends TimerTask implements ActionListener {
         // set presets
         presets = new Presets(iconSize.height);
 
-        calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance(presets.timeZone, presets.locale);
 
         // create TrayIcon according to iconSize
         trayIcon = new TrayIcon(getTrayImage(), "TimeTray", menu);
@@ -128,7 +130,7 @@ public class TimeTray extends TimerTask implements ActionListener {
      */
     public void run() {
         // get current date and time and set ToolTipText accordingly
-        calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance(presets.timeZone, presets.locale);
 
         trayIcon.setToolTip(
             "week " +
@@ -261,6 +263,12 @@ public class TimeTray extends TimerTask implements ActionListener {
         // font to be used
         private Font font;
 
+        // time zone to use when calculating which week it is
+        private TimeZone timeZone;
+
+        // locale to use when calculating which week it is
+        private Locale locale;
+
         /*
          * used to correct the calendar week by +1 or -1 if neccessary
          *
@@ -286,6 +294,8 @@ public class TimeTray extends TimerTask implements ActionListener {
             font = DEFAULT_FONT;
             offset = Presets.DEFAULT_OFFSET;
             sdf = new SimpleDateFormat(DEFAULT_SDF_FORMAT);
+            timeZone = TimeZone.getDefault();
+            locale = Locale.getDefault();
 
             File file = new File(this.FILENAME);
             if (file.exists()) {
@@ -331,7 +341,8 @@ public class TimeTray extends TimerTask implements ActionListener {
                 this.font = new Font(family, style, trayHeight);
 
                 this.sdf = new SimpleDateFormat(br.readLine());
-
+                setTimeZone(br.readLine());
+                setLocale(br.readLine(), br.readLine());
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -363,10 +374,56 @@ public class TimeTray extends TimerTask implements ActionListener {
                 out.println(this.font.getStyle());
 
                 out.println(this.sdf.toPattern());
-
+                out.println( this.timeZone.getID() );
+                out.println( this.locale.getLanguage() );
+                out.println( this.locale.getCountry() );
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
+        }
+
+        private void setTimeZone(String sTimeZone) {
+            this.timeZone = TimeZone.getDefault();
+            if (sTimeZone != null)
+            {
+                if (Arrays.asList(TimeZone.getAvailableIDs()).contains(sTimeZone))
+                {
+                    this.timeZone = TimeZone.getTimeZone(sTimeZone);
+                }
+                else
+                {
+                    System.out.println("TimeZone \"" + sTimeZone + "\" not found. Using default time zone.");
+                }
+            }
+            System.out.println("TimeZone:        " + this.timeZone.getID());
+        }
+
+        private void setLocale(String sLanguage, String sCountry) {
+            this.locale = Locale.getDefault();
+            if (sLanguage != null)
+            {
+                if (Arrays.asList(Locale.getISOLanguages()).contains(sLanguage))
+                {
+                    this.locale = new Locale(sLanguage);
+                    if (sCountry != null)
+                    {
+                        if (Arrays.asList(Locale.getISOCountries()).contains(sCountry))
+                        {
+                            this.locale = new Locale(sLanguage, sCountry);
+                        }
+                        else
+                        {
+                            System.out.println("Locale country \"" + sCountry + "\" not found. Using language only.");
+                        }
+                    }
+                }
+                else
+                {
+                    System.out.println("Locale langauge \"" + sLanguage + "\" not found. Using default locale.");
+                }
+            }
+            System.out.println("Locale Language: " + this.locale.getLanguage());
+            System.out.println("Locale Country:  " + this.locale.getCountry());
         }
     }
 
