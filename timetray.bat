@@ -1,2 +1,2 @@
 @echo off
-start java -jar TimeTray.jar
+start java -Xmx50M -jar TimeTray.jar
